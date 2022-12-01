@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Tachistoscope</title>
+	</head>
+	<body>
+		<div id="MAIN_MENU">
+			<select id="DIFFICULTY_SELECTION" name="Rank" id="event">
+				<option value="Free Play">Free Play</option>
+				<option value="Metamarphosis">Metamarphosis</option>
+				<option value="Radioactive">Radioactive</option>
+				<option value="Esper">Esper</option>
+				<option value="Amatsukami">Amatsukami</option>
+				<option value="Kotoamatsukami">Kotoamatsukami</option>
+			</select>
+			<form autocomplete="off" id="FORM">
+				
+				<input value="250" name="delay" type="number" class="inputNumber" id="INPUT_LIFETIME" requred>
+				
+				<input value = "6" name="amount" type="number" class="inputNumber" id="INPUT_DIGIT_AMOUNT" required>
+				<button type="submit" class="button-80" role ="button" id="submit">confirm</button>
+			</form>
+		</div>
+		<div id="GAME">
+			<h1 id="QUESTION"></h1>
+			<input type="number" class="inputNumber">
+		</div>
+		<script src = "scripts.js"></script>
+	</body>
+</html>
