@@ -37,19 +37,19 @@ function generateRandomQuestion() {
 
 
 function selectDifficulty(difficulty) {
-    if (difficulty === "Metamarphosis") {
+    if (DIFFICULTY_SELECTION.value === "Metamarphosis") {
         INPUT_DIGIT_AMOUNT.value = 6
     }
-    if (difficulty === "Radioactive") {
+    if (DIFFICULTY_SELECTION === "Radioactive") {
         INPUT_DIGIT_AMOUNT.value = 7
     }
-    if (difficulty === "Esper") {
+    if (DIFFICULTY_SELECTION === "Esper") {
         INPUT_DIGIT_AMOUNT.value = 8
     }
-    if (difficulty === "Amatsukami") {
+    if (DIFFICULTY_SELECTION === "Amatsukami") {
         INPUT_DIGIT_AMOUNT.value = 9
     }
-    if (difficulty === "Kotoamatsukami") {
+    if (DIFFICULTY_SELECTION === "Kotoamatsukami") {
         INPUT_DIGIT_AMOUNT.value = 10
     }
 } // difficulty select
@@ -57,21 +57,8 @@ function selectDifficulty(difficulty) {
 
 function playGame() {
     ANSWER.value = ""
-    if (streak == 1) {
+    
 
-    }
-    if (streak == 2) {
-
-    }
-    if (streak == 3) {
-
-    }
-    if (streak == 4) {
-
-    }
-    if (streak == 5) {
-
-    }
 
     word = generateRandomQuestion()
     word.split('').forEach(character => {
@@ -107,7 +94,7 @@ function rightOrWrong() {
             arrayAnswer[i].classList.remove("incorrect")
         }
         if (i === arrayAnswer.length - 1) {
-            arrayValue=undefined
+            arrayValue = undefined
             endGame(correct)
         }
     }
@@ -116,15 +103,42 @@ function rightOrWrong() {
 
 function endGame(bool) {
     if (bool) {
+        points+=100
+        streak += 1
+         if (DIFFICULTY_SELECTION.value !== "Free Play") {
+        if (streak == 1) {
+            points += 100
+        }
+        if (streak == 2) {
+            points +=200
+        }
+        if (streak == 3) {
+            points+=300
+        }
+        if (streak == 4) {
+            points+=400
+        }
+        if (streak == 5) {
+            points+=500
+        }
+    }
+      
+         POINT_TEXT.innerText=points
+        POINT_TEXT.classList.add('combo-animation')
+        let wait = accurateInterval(5000,function(){
+            POINT_TEXT.classList.remove('combo-animation')
+        })
         audioCorrect.play()
         FEED.innerHTML = ""
         QUESTION.innerHTML = ""
-        streak += 1
+        
         playGame()
     }
     if (!bool) {
-        audioWrong.play()
+        points = points+(streak*streak*streak)
         streak = 0
+        POINT_TEXT.innerText=points
+        audioWrong.play()
         QUESTION.innerHTML = ""
         correct = true
 
@@ -132,16 +146,16 @@ function endGame(bool) {
         const liCorrect = document.createElement("li")
         const liWrong = document.createElement("li")
         ul.classList.add("lists")
-        
+
 
 
         FEED.appendChild(ul)
         ul.appendChild(liCorrect)
         ul.appendChild(liWrong)
         liCorrect.style.fontSize = '3rem'
-        
 
-    
+
+
 
         for (let i = 0; i < arrayAnswer.length; ++i) {
             liWrong.append(arrayAnswer[i])
@@ -161,6 +175,21 @@ function endGame(bool) {
 }
 
 
+
+//! HTML NODES
+const MAIN_MENU = document.querySelector("#MAIN_MENU")
+const DIFFICULTY_SELECTION = document.querySelector("#DIFFICULTY_SELECTION")
+const QUESTION = document.querySelector("#QUESTION")
+const ANSWER = document.querySelector("#ANSWER")
+const NUMBER_INPUTS = document.querySelectorAll(".inputNumber")
+const SUBMIT_FORM = document.querySelector("#SUBMIT_FORM")
+const INPUT_LIFETIME = document.querySelector("#INPUT_LIFETIME")
+const INPUT_DIGIT_AMOUNT = document.querySelector("#INPUT_DIGIT_AMOUNT")
+const SUBMIT_BUTTON = document.querySelector("#SUBMIT_BUTTON")
+const FEED = document.querySelector("#FEED")
+const POINT_TEXT = document.querySelector('#POINT_TEXT')
+
+
 //! Variables
 const invalidChars = [
     "-",
@@ -176,21 +205,9 @@ let arrayAnswer
 let correct = true
 let word
 let streak = 0
+let points = parseInt(POINT_TEXT.innerText)
 
 
-
-
-//! HTML NODES
-const MAIN_MENU = document.querySelector("#MAIN_MENU")
-const DIFFICULTY_SELECTION = document.querySelector("#DIFFICULTY_SELECTION")
-const QUESTION = document.querySelector("#QUESTION")
-const ANSWER = document.querySelector("#ANSWER")
-const NUMBER_INPUTS = document.querySelectorAll(".inputNumber")
-const SUBMIT_FORM = document.querySelector("#SUBMIT_FORM")
-const INPUT_LIFETIME = document.querySelector("#INPUT_LIFETIME")
-const INPUT_DIGIT_AMOUNT = document.querySelector("#INPUT_DIGIT_AMOUNT")
-const SUBMIT_BUTTON = document.querySelector("#SUBMIT_BUTTON")
-const FEED = document.querySelector("#FEED")
 
 
 
@@ -231,7 +248,7 @@ NUMBER_INPUTS.forEach(function(element) {
 
 SUBMIT_FORM.addEventListener("click", (e) => {
     e.preventDefault()
-    if (INPUT_LIFETIME.value === "" || INPUT_DIGIT_AMOUNT.value === "" || INPUT_LIFETIME.value === 0 || INPUT_DIGIT_AMOUNT.value===0) {
+    if (INPUT_LIFETIME.value === "" || INPUT_DIGIT_AMOUNT.value === "" || INPUT_LIFETIME.value === 0 || INPUT_DIGIT_AMOUNT.value === 0) {
 
     } else {
         MAIN_MENU.style.display = "none" //hide main menu
@@ -244,27 +261,27 @@ SUBMIT_FORM.addEventListener("click", (e) => {
 SUBMIT_BUTTON.addEventListener("click", (e) => {
 
     if (arrayValue === undefined || arrayValue.length !== word.length) {
-        
-        let n =""
-        for(let i = 0; i < word.length; ++i){
-            n+=0
-            
+
+        let n = ""
+        for (let i = 0; i < word.length; ++i) {
+            n += 0
+
         } //! tmp
-        ANSWER.value=n
+        ANSWER.value = n
         SUBMIT_BUTTON.style.display = "none"
         ANSWER.style.display = "none"
-         arrayAnswer = QUESTION.querySelectorAll("span")
+        arrayAnswer = QUESTION.querySelectorAll("span")
         arrayValue = ANSWER.value.split('')
         rightOrWrong()
-    }else {
+    } else {
         e.preventDefault()
         SUBMIT_BUTTON.style.display = "none"
-        ANSWER.style.display = "none" 
-          rightOrWrong()
+        ANSWER.style.display = "none"
+        rightOrWrong()
 
-    } 
+    }
 
- 
+
 })
 
 
@@ -274,8 +291,8 @@ ANSWER.addEventListener("input", () => {
     arrayValue = ANSWER.value.split('')
 
 })
-ANSWER.addEventListener("keypress",(e)=>{
-    if(e.key==="Enter"){
+ANSWER.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
         e.preventDefault()
         SUBMIT_BUTTON.click()
     }
