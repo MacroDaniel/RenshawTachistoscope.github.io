@@ -19,16 +19,20 @@
                 <option value="Amatsukami">Amatsukami</option>
                 <option value="Kotoamatsukami">Kotoamatsukami</option>
             </select>
-            <form autocomplete="off" id="FORM">
-                <input value="250" name="delay" type="number" class="inputNumber" id="INPUT_LIFETIME" requred>
-                <input value="6" name="amount" type="number" class="inputNumber" id="INPUT_DIGIT_AMOUNT" required>
-                <button type="submit" class="button-80" role="button" id="SUBMIT_FORM">confirm</button>
-            </form>
+            
+                <form autocomplete="off" id="FORM">
+                    <input placeholder="milliseconds" value="" name="delay" type="number" class="inputNumber" id="INPUT_LIFETIME" requred>
+                    <input placeholder="digits" value="" name="amount" type="number" class="inputNumber" id="INPUT_DIGIT_AMOUNT" required>
+                    <button type="submit" class="button-80" role="button" id="SUBMIT_FORM">confirm</button>
+                </form>
+            
         </div>
         <div id="GAME">
             <div id="QUESTION"></div>
-            <input type="number" class="inputNumber" id="ANSWER">
-            <button type="button" id="SUBMIT_BUTTON">confirm</button>
+            <div class="confirm-wrap">
+                <input type="number" class="inputNumber" id="ANSWER">
+                <button class="button-80" type="button" id="SUBMIT_BUTTON">confirm</button>
+            </div>
         </div>
     </div>
     <aside id="FEED"></aside>

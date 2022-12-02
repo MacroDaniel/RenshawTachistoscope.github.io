@@ -56,18 +56,36 @@ function selectDifficulty(difficulty) {
 
 
 function playGame() {
+    ANSWER.value = ""
+    if (streak == 1) {
+
+    }
+    if (streak == 2) {
+
+    }
+    if (streak == 3) {
+
+    }
+    if (streak == 4) {
+
+    }
+    if (streak == 5) {
+
+    }
+
     word = generateRandomQuestion()
     word.split('').forEach(character => {
         const characterSpan = document.createElement('span')
         characterSpan.innerText = character
         QUESTION.appendChild(characterSpan)
     })
-    let gameShow = accurateInterval(4000, function() {
+    let gameShow = accurateInterval(3000, function() {
         QUESTION.style.display = "inline"
         let gameHide = accurateInterval(Number(INPUT_LIFETIME.value), function() {
             QUESTION.style.display = "none"
             let wait = accurateInterval(500, function() {
                 ANSWER.style.display = "inline"
+                ANSWER.focus()
                 SUBMIT_BUTTON.style.display = "inline"
                 wait.cancel()
             })
@@ -77,7 +95,7 @@ function playGame() {
     })
 }
 
-function rightOrWrong(){
+function rightOrWrong() {
     for (var i = 0; i < arrayAnswer.length; i++) {
         if (arrayAnswer[i].innerHTML !== arrayValue[i]) {
             arrayAnswer[i].classList.add("incorrect")
@@ -94,40 +112,48 @@ function rightOrWrong(){
     }
 }
 
+
 function endGame(bool) {
     if (bool) {
         audioCorrect.play()
-        FEED.innerHTML=""
-        QUESTION.innerHTML=""
+        FEED.innerHTML = ""
+        QUESTION.innerHTML = ""
+        streak += 1
+        playGame()
     }
     if (!bool) {
         audioWrong.play()
-        QUESTION.innerHTML=""
-        correct=true
+        streak = 0
+        QUESTION.innerHTML = ""
+        correct = true
 
         const ul = document.createElement("ul")
         const liCorrect = document.createElement("li")
         const liWrong = document.createElement("li")
         ul.classList.add("lists")
-       
+        
 
 
         FEED.appendChild(ul)
         ul.appendChild(liCorrect)
         ul.appendChild(liWrong)
+        liCorrect.style.fontSize = '3rem'
+        
 
-        console.log(word)
+    
 
-        for(let i = 0; i < arrayAnswer.length; ++i){
+        for (let i = 0; i < arrayAnswer.length; ++i) {
             liWrong.append(arrayAnswer[i])
         }
         liCorrect.innerText = word
         liCorrect.style.color = 'green'
 
-        playGame()
-        let wait = accurateInterval(2200, function(){
-            FEED.innerHTML=""
+
+        let wait = accurateInterval(3000, function() {
+            FEED.innerHTML = ""
+
             wait.cancel()
+            playGame()
         })
 
     }
@@ -138,7 +164,8 @@ function endGame(bool) {
 const invalidChars = [
     "-",
     "+",
-    "e"
+    "e",
+    "."
 ]
 let playing = false
 const audioCorrect = new Audio('correct.mp3')
@@ -147,6 +174,9 @@ let arrayValue
 let arrayAnswer
 let correct = true
 let word
+let streak = 0
+
+
 
 
 //! HTML NODES
@@ -173,7 +203,8 @@ DIFFICULTY_SELECTION.addEventListener("change", (e) => {
     } else {
         INPUT_LIFETIME.readOnly = false
         INPUT_DIGIT_AMOUNT.readOnly = false
-        INPUT_LIFETIME.value = 250
+        INPUT_LIFETIME.value = ""
+        INPUT_DIGIT_AMOUNT.value = ""
         playing = false
     }
     selectDifficulty(e.target.value)
@@ -199,22 +230,27 @@ NUMBER_INPUTS.forEach(function(element) {
 
 SUBMIT_FORM.addEventListener("click", (e) => {
     e.preventDefault()
-    MAIN_MENU.style.display = "none" //hide main menu
+    if (INPUT_LIFETIME.value === "" || INPUT_DIGIT_AMOUNT.value === "" || INPUT_LIFETIME.value === 0 || INPUT_DIGIT_AMOUNT.value===0) {
 
-    playGame()
+    } else {
+        MAIN_MENU.style.display = "none" //hide main menu
+
+        playGame()
+    }
+
 })
 
 SUBMIT_BUTTON.addEventListener("click", (e) => {
-    
-    if(!arrayValue || arrayValue.length!==word.length){
+
+    if (!arrayValue || arrayValue.length !== word.length) {
         e.preventDefault()
         alert(word.length + " digits is requiered") //! tmp
-    }else{
+    } else {
         SUBMIT_BUTTON.style.display = "none"
         ANSWER.style.display = "none"
-         rightOrWrong()
+        rightOrWrong()
     }
-   
+
 })
 
 
@@ -223,25 +259,11 @@ ANSWER.addEventListener("input", () => {
     arrayAnswer = QUESTION.querySelectorAll("span")
     arrayValue = ANSWER.value.split('')
 
-
-
-    // arrayAnswer.forEach((characterSpan, index) => {
-    //     const character = arrayValue[index]
-    //     if (character == null) {
-    //         characterSpan.classList.remove('correct')
-    //         characterSpan.classList.remove('incorrect')
-    //         correct = false
-    //     } else if (character === characterSpan.innerText) {
-    //         characterSpan.classList.add('correct')
-    //         characterSpan.classList.remove('incorrect')
-    //         console.log("righ")
-    //     } else {
-    //         characterSpan.classList.remove('correct')
-    //         characterSpan.classList.add('incorrect')
-    //         correct = false
-    //     }
-    // })
-
-
+})
+ANSWER.addEventListener("keypress",(e)=>{
+    if(e.key==="Enter"){
+        e.preventDefault()
+        SUBMIT_BUTTON.click()
+    }
 
 })
