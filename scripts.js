@@ -107,6 +107,7 @@ function rightOrWrong() {
             arrayAnswer[i].classList.remove("incorrect")
         }
         if (i === arrayAnswer.length - 1) {
+            arrayValue=undefined
             endGame(correct)
         }
     }
@@ -242,15 +243,28 @@ SUBMIT_FORM.addEventListener("click", (e) => {
 
 SUBMIT_BUTTON.addEventListener("click", (e) => {
 
-    if (!arrayValue || arrayValue.length !== word.length) {
-        e.preventDefault()
-        alert(word.length + " digits is requiered") //! tmp
-    } else {
+    if (arrayValue === undefined || arrayValue.length !== word.length) {
+        
+        let n =""
+        for(let i = 0; i < word.length; ++i){
+            n+=0
+            
+        } //! tmp
+        ANSWER.value=n
         SUBMIT_BUTTON.style.display = "none"
         ANSWER.style.display = "none"
+         arrayAnswer = QUESTION.querySelectorAll("span")
+        arrayValue = ANSWER.value.split('')
         rightOrWrong()
-    }
+    }else {
+        e.preventDefault()
+        SUBMIT_BUTTON.style.display = "none"
+        ANSWER.style.display = "none" 
+          rightOrWrong()
 
+    } 
+
+ 
 })
 
 
