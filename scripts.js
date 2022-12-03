@@ -188,6 +188,8 @@ const INPUT_DIGIT_AMOUNT = document.querySelector("#INPUT_DIGIT_AMOUNT")
 const SUBMIT_BUTTON = document.querySelector("#SUBMIT_BUTTON")
 const FEED = document.querySelector("#FEED")
 const POINT_TEXT = document.querySelector('#POINT_TEXT')
+const POINT_COUNTER = document.querySelector(".point-counter")
+
 
 
 //! Variables
@@ -254,7 +256,7 @@ SUBMIT_FORM.addEventListener("click", (e) => {
 
     } else {
         MAIN_MENU.style.display = "none" //hide main menu
-
+        POINT_COUNTER.style.display = 'inline'
         playGame()
     }
 
