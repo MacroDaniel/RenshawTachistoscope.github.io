@@ -40,16 +40,16 @@ function selectDifficulty(difficulty) {
     if (DIFFICULTY_SELECTION.value === "Metamarphosis") {
         INPUT_DIGIT_AMOUNT.value = 6
     }
-    if (DIFFICULTY_SELECTION === "Radioactive") {
+    if (DIFFICULTY_SELECTION.value === "Radioactive") {
         INPUT_DIGIT_AMOUNT.value = 7
     }
-    if (DIFFICULTY_SELECTION === "Esper") {
+    if (DIFFICULTY_SELECTION.value === "Esper") {
         INPUT_DIGIT_AMOUNT.value = 8
     }
-    if (DIFFICULTY_SELECTION === "Amatsukami") {
+    if (DIFFICULTY_SELECTION.value === "Amatsukami") {
         INPUT_DIGIT_AMOUNT.value = 9
     }
-    if (DIFFICULTY_SELECTION === "Kotoamatsukami") {
+    if (DIFFICULTY_SELECTION.value === "Kotoamatsukami") {
         INPUT_DIGIT_AMOUNT.value = 10
     }
 } // difficulty select
@@ -216,6 +216,7 @@ DIFFICULTY_SELECTION.addEventListener("change", (e) => {
     if (e.target.value !== "Free Play") {
         INPUT_LIFETIME.readOnly = true
         INPUT_DIGIT_AMOUNT.readOnly = true
+
         INPUT_LIFETIME.value = 100
         playing = true
     } else {
@@ -225,6 +226,7 @@ DIFFICULTY_SELECTION.addEventListener("change", (e) => {
         INPUT_DIGIT_AMOUNT.value = ""
         playing = false
     }
+
     selectDifficulty(e.target.value)
 }) // difficulty selector
 
